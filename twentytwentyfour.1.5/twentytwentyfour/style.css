@@ -1,0 +1,207 @@
+/*
+Theme Name: Twenty Twenty-Four
+Theme URI: https://wordpress.org/themes/twentytwentyfour/
+Author: the WordPress team
+Author URI: https://wordpress.org
+Description: Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collection of templates and patterns tailor to different needs, such as presenting a business, blogging and writing or showcasing work. A multitude of possibilities open up with just a few adjustments to color and typography. Twenty Twenty-Four comes with style variations and full page designs to help speed up the site building process, is fully compatible with the site editor, and takes advantage of new design tools introduced in WordPress 6.4.
+Requires at least: 6.4
+Tested up to: 7.0
+Requires PHP: 7.0
+Version: 1.5
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: twentytwentyfour
+Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, accessibility-ready, blog, portfolio, news
+
+
+/* Custom Hover Effects for Web Pengabdian */
+.wp-card-hover {
+	transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.wp-card-hover:hover {
+	transform: translateY(-8px) scale(1.01) !important;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Custom Card for Pemateri (Centered Content) */
+.wp-pemateri-card {
+	text-align: center;
+	transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.wp-pemateri-card:hover {
+	transform: translateY(-8px) scale(1.01) !important;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.wp-pemateri-card .wp-block-post-featured-image {
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	justify-content: center;
+}
+
+.wp-pemateri-card .wp-block-post-featured-image img {
+	margin: 0 auto;
+}
+
+/* Custom Blue Theme (UNS Blue) */
+.wp-uns-blue {
+	background-color: #0c54a3 !important;
+	color: #ffffff !important;
+}
+
+.wp-uns-blue h1,
+.wp-uns-blue h2,
+.wp-uns-blue h3,
+.wp-uns-blue h4,
+.wp-uns-blue h5,
+.wp-uns-blue h6,
+.wp-uns-blue p,
+.wp-uns-blue span,
+.wp-uns-blue a {
+	color: #ffffff !important;
+}
+
+/* Custom FAQ Accordion (Details Block) Styling */
+.wp-faq-accordion {
+	border-bottom: none !important;
+	padding: 0.75rem 0 !important;
+	margin: 0 !important;
+}
+
+.wp-faq-accordion summary {
+	font-weight: 500 !important;
+	font-size: 1.25rem !important;
+	line-height: 1.5 !important;
+	cursor: pointer !important;
+	list-style: none !important; /* Hide default arrow */
+	position: relative !important;
+	padding-left: 2.5rem !important;
+	color: #000000 !important;
+}
+
+/* Hide Safari default arrow */
+.wp-faq-accordion summary::-webkit-details-marker {
+	display: none !important;
+}
+
+/* Create the Custom + / - Icon */
+.wp-faq-accordion summary::before {
+	content: "+" !important;
+	position: absolute !important;
+	left: 0.5rem !important;
+	top: 50% !important;
+	transform: translateY(-50%) !important;
+	font-size: 1.75rem !important;
+	font-weight: 300 !important;
+	line-height: 1 !important;
+	color: #000000 !important;
+	transition: transform 0.2s ease !important;
+}
+
+.wp-faq-accordion[open] summary::before {
+	content: "−" !important;
+}
+
+/* Align and style the answer content */
+.wp-faq-accordion .wp-block-details-content {
+	padding-top: 1rem !important;
+	padding-left: 2.5rem !important;
+	font-size: 1.05rem !important;
+	line-height: 1.6 !important;
+	color: #4a4a4a !important;
+}
+
+/* ==========================================
+   Gallery Page (Page ID 10) Grid Styling
+   ========================================== */
+.page-id-10 .wp-block-post-template:has(.kategori_galeri-foto) {
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr) !important; /* Default 3 columns */
+	gap: 24px !important;
+	padding: 0 !important;
+	margin: 20px 0 !important;
+	list-style: none !important;
+}
+
+/* Quantity queries: adjust columns dynamically based on item count */
+.page-id-10 .wp-block-post-template:has(.kategori_galeri-foto):has(> li:only-child) {
+	grid-template-columns: 1fr !important;
+}
+
+.page-id-10 .wp-block-post-template:has(.kategori_galeri-foto):has(> li:nth-child(2):last-child) {
+	grid-template-columns: repeat(2, 1fr) !important;
+}
+
+/* Item card reset */
+.page-id-10 .wp-block-post-template:has(.kategori_galeri-foto) > li {
+	margin: 0 !important;
+	list-style-type: none !important;
+}
+
+/* Image wrapper styling & premium hover effects */
+.page-id-10 .wp-block-post-template:has(.kategori_galeri-foto) .wp-block-post-featured-image {
+	margin: 0 !important;
+	border-radius: 12px !important;
+	overflow: hidden !important;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+	line-height: 0 !important;
+	transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.page-id-10 .wp-block-post-template:has(.kategori_galeri-foto) .wp-block-post-featured-image:hover {
+	transform: translateY(-8px) scale(1.01) !important;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Widescreen 4:3 cropped image presentation */
+.page-id-10 .wp-block-post-template:has(.kategori_galeri-foto) .wp-block-post-featured-image img {
+	width: 100% !important;
+	height: auto !important;
+	aspect-ratio: 4/3 !important;
+	object-fit: cover !important;
+	display: block !important;
+}
+
+/* Responsive view for tablets and mobile devices */
+@media (max-width: 768px) {
+	.page-id-10 .wp-block-post-template:has(.kategori_galeri-foto) {
+		grid-template-columns: 1fr !important;
+	}
+	.page-id-10 .wp-block-post-template:has(.kategori_galeri-foto):has(> li:nth-child(2):last-child) {
+		grid-template-columns: 1fr !important;
+	}
+}
+
+/* ==========================================
+   Utility Classes untuk Gutenberg Editor
+   ========================================== */
+.card-rata-tengah {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	text-align: center !important;
+	justify-content: center !important;
+}
+
+.card-rata-tengah .wp-block-post-featured-image {
+	margin-left: auto !important;
+	margin-right: auto !important;
+	display: inline-block !important;
+	text-align: center !important;
+}
+
+.card-rata-tengah .wp-block-post-featured-image img {
+	margin-left: auto !important;
+	margin-right: auto !important;
+	display: block !important;
+	max-width: 100% !important;
+}
+
+/* Excerpt Read More Link Styling */
+.wp-block-post-excerpt__more-link {
+	text-decoration: underline !important;
+	font-weight: 500 !important;
+}
