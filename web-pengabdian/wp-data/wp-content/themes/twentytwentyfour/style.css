@@ -14,25 +14,26 @@ Text Domain: twentytwentyfour
 Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, accessibility-ready, blog, portfolio, news
 
 
-/* Custom Hover Effects for Web Pengabdian */
+/* Custom Hover Effects & Modern Glassmorphism for Web Pengabdian */
 .wp-card-hover {
-	transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+	transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease !important;
 }
 
 .wp-card-hover:hover {
-	transform: translateY(-8px) scale(1.01) !important;
-	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+	transform: translateY(-8px) scale(1.015) !important;
+	box-shadow: 0 20px 40px rgba(12, 84, 163, 0.12) !important;
+	border-color: rgba(12, 84, 163, 0.3) !important;
 }
 
 /* Custom Card for Pemateri (Centered Content) */
 .wp-pemateri-card {
 	text-align: center;
-	transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+	transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .wp-pemateri-card:hover {
-	transform: translateY(-8px) scale(1.01) !important;
-	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+	transform: translateY(-8px) scale(1.015) !important;
+	box-shadow: 0 20px 40px rgba(12, 84, 163, 0.12) !important;
 }
 
 .wp-pemateri-card .wp-block-post-featured-image {
@@ -44,11 +45,14 @@ Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, feature
 
 .wp-pemateri-card .wp-block-post-featured-image img {
 	margin: 0 auto;
+	border-radius: 50%;
+	border: 3px solid #0c54a3;
+	box-shadow: 0 4px 12px rgba(12, 84, 163, 0.15);
 }
 
-/* Custom Blue Theme (UNS Blue) */
+/* Custom Blue Theme (UNS Blue Palette) */
 .wp-uns-blue {
-	background-color: #0c54a3 !important;
+	background: linear-gradient(135deg, #0c54a3 0%, #06356c 100%) !important;
 	color: #ffffff !important;
 }
 
@@ -62,6 +66,708 @@ Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, feature
 .wp-uns-blue span,
 .wp-uns-blue a {
 	color: #ffffff !important;
+}
+
+/* ==========================================
+   Header — White, No Shadow, Just Border
+   ========================================== */
+header.wp-block-template-part {
+	background: #ffffff !important;
+	border-bottom: 1px solid #dde4ef !important;
+	box-shadow: none !important;
+	position: sticky !important;
+	top: 0 !important;
+	z-index: 100 !important;
+	padding-top: 14px !important;
+	padding-bottom: 14px !important;
+}
+
+/* ==========================================
+   Mobile Navigation Modal (Full-Screen Fix)
+   ========================================== */
+html.has-modal-open header.wp-block-template-part,
+html.has-modal-open header.wp-block-template-part *,
+html.has-modal-open .wp-block-navigation__responsive-container,
+html.has-modal-open .wp-block-navigation__responsive-close,
+html.has-modal-open .wp-block-navigation__responsive-dialog,
+html.has-modal-open .wp-block-navigation__responsive-container-content,
+html.has-modal-open .wp-block-navigation__container,
+html.has-modal-open .wp-block-navigation-item {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	box-sizing: border-box !important;
+	align-items: stretch !important;
+	justify-content: flex-start !important;
+}
+
+html.has-modal-open header.wp-block-template-part {
+	position: fixed !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100vw !important;
+	height: 100vh !important;
+	z-index: 999999 !important;
+	background: #ffffff !important;
+}
+
+/* Outer Modal Container: 20px uniform padding all around */
+html.has-modal-open .wp-block-navigation__responsive-container.is-menu-open {
+	position: fixed !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100vw !important;
+	height: 100vh !important;
+	background: #ffffff !important;
+	z-index: 1000000 !important;
+	display: block !important;
+	padding: 20px !important;
+	box-sizing: border-box !important;
+}
+
+html.has-modal-open .wp-block-navigation__responsive-dialog {
+	width: 100% !important;
+	height: 100% !important;
+	display: block !important;
+	position: relative !important;
+}
+
+/* Close Button cleanly placed at top right */
+html.has-modal-open .wp-block-navigation__responsive-container-close {
+	position: absolute !important;
+	top: 0 !important;
+	right: 0 !important;
+	z-index: 1000002 !important;
+	background: transparent !important;
+	border: none !important;
+	cursor: pointer !important;
+	padding: 4px !important;
+	margin: 0 !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+html.has-modal-open .wp-block-navigation__responsive-container-close svg {
+	width: 24px !important;
+	height: 24px !important;
+	fill: #0c54a3 !important;
+}
+
+/* Push navigation list down so it doesn't collide with Close button */
+html.has-modal-open .wp-block-navigation__responsive-container-content {
+	padding-top: 44px !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+}
+
+/* Override Gutenberg right-justification inside modal */
+html.has-modal-open .wp-block-navigation__container,
+html.has-modal-open .wp-block-navigation__container.items-justified-right {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 8px !important;
+	width: 100% !important;
+	align-items: stretch !important;
+	justify-content: flex-start !important;
+	list-style: none !important;
+}
+
+html.has-modal-open .wp-block-navigation__container .wp-block-navigation-item {
+	width: 100% !important;
+	list-style-type: none !important;
+	display: block !important;
+}
+
+/* Sleek, Compact Menu Cards */
+html.has-modal-open .wp-block-navigation__container .wp-block-navigation-item a {
+	font-size: 0.95rem !important;
+	font-weight: 600 !important;
+	color: #0f2340 !important;
+	display: block !important;
+	padding: 10px 16px !important;
+	border-radius: 8px !important;
+	background: #f1f5f9 !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+	text-decoration: none !important;
+	box-shadow: none !important;
+	border: 1px solid transparent !important;
+	text-align: left !important;
+	transition: all 0.2s ease !important;
+}
+
+/* Active item styling */
+html.has-modal-open .wp-block-navigation__container .wp-block-navigation-item.current-menu-item a,
+html.has-modal-open .wp-block-navigation__container .wp-block-navigation-item.current-menu-ancestor a {
+	background: #0c54a3 !important;
+	color: #ffffff !important;
+	box-shadow: 0 2px 8px rgba(12, 84, 163, 0.2) !important;
+	border: 1px solid #0c54a3 !important;
+}
+
+
+header.wp-block-template-part .wp-block-site-title a {
+	color: #0c54a3 !important;
+	font-weight: 800 !important;
+	text-decoration: none !important;
+}
+
+header.wp-block-template-part .wp-block-navigation a {
+	color: #334155 !important;
+	font-weight: 500 !important;
+	transition: color 0.18s ease !important;
+	text-decoration: none !important;
+}
+
+header.wp-block-template-part .wp-block-navigation a:hover {
+	color: #0c54a3 !important;
+}
+
+/* ==========================================
+   Sticky Footer & Base Layout Reset
+   ========================================== */
+html, body {
+	min-height: 100vh !important;
+	margin: 0 !important;
+}
+
+.wp-site-blocks {
+	display: flex !important;
+	flex-direction: column !important;
+	min-height: 100vh !important;
+}
+
+main.wp-block-group {
+	flex: 1 0 auto !important;
+	margin-top: 0 !important;
+}
+
+footer.wp-block-template-part {
+	margin-top: auto !important;
+}
+
+header.wp-block-template-part + main,
+header.wp-block-template-part + div,
+main.wp-block-group > div:first-child {
+	margin-top: 0 !important;
+}
+
+/* ==========================================
+   Header Navigation Active State
+   ========================================== */
+.wp-block-navigation-item.current-menu-item > a,
+.wp-block-navigation-item.current-menu-ancestor > a {
+	color: #0c54a3 !important;
+	font-weight: 700 !important;
+	box-shadow: 0 2px 0 0 #0c54a3 !important;
+}
+
+/* ==========================================
+   Tim Dosen (Anggota) Card Height Fix
+   ========================================== */
+li.type-anggota {
+	height: 100% !important;
+}
+li.type-anggota > .wp-block-group {
+	height: 100% !important;
+	display: flex !important;
+	flex-direction: column !important;
+}
+li.type-anggota > .wp-block-group > .wp-block-post-content {
+	margin-top: auto !important;
+}
+
+/* ==========================================
+   Subpages Layout Adjustments (Materi, Gallery, FAQ)
+   ========================================== */
+/* Standalone FAQ Page Styling */
+.page-id-9 .wp-faq-section-wrapper,
+.page:not(.home) .wp-faq-section-wrapper {
+	background: transparent !important;
+	padding: 20px 0 40px !important;
+}
+
+/* ==========================================
+   Halaman Materi (Page ID 11) - Landscape 16:9 Widescreen Black Frames
+   ========================================== */
+.page-id-11 main .is-layout-constrained,
+.page-id-11 main .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+	max-width: 1000px !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.page-id-11 .wp-block-query,
+.page-id-11 .wp-block-post-template {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 100% !important;
+	margin: 0 auto !important;
+	padding: 0 !important;
+	list-style: none !important;
+}
+
+.page-id-11 .wp-block-query .wp-block-post-template > li {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 100% !important;
+	max-width: 800px !important;
+	margin: 0 auto 40px auto !important;
+	list-style-type: none !important;
+	grid-column: 1 / -1 !important;
+}
+
+.page-id-11 .wp-materi-iframe-wrapper,
+.type-materi .wp-materi-iframe-wrapper {
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	width: 100% !important;
+	max-width: 800px !important;
+	margin: 0 auto !important;
+	text-align: center !important;
+}
+
+.page-id-11 iframe,
+.type-materi iframe {
+	display: block !important;
+	width: 800px !important;
+	max-width: calc(100% - 32px) !important;
+	height: 450px !important;
+	margin: 0 auto 20px auto !important;
+	border-radius: 12px !important;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+	background: #000000 !important;
+	border: none !important;
+}
+
+@media (max-width: 840px) {
+	.page-id-11 .wp-materi-iframe-wrapper,
+	.type-materi .wp-materi-iframe-wrapper {
+		width: 100% !important;
+		max-width: 100% !important;
+	}
+	.page-id-11 iframe,
+	.type-materi iframe {
+		width: calc(100% - 32px) !important;
+		max-width: calc(100% - 32px) !important;
+		height: auto !important;
+		aspect-ratio: 16 / 9 !important;
+		min-height: 220px !important;
+		margin: 0 auto 20px auto !important;
+	}
+}
+
+/* ==========================================
+   Halaman Gallery (Page ID 10) - Centered Video & Photo Grid
+   ========================================== */
+.page-id-10 main .is-layout-constrained,
+.page-id-10 main .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+	max-width: 1000px !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.page-id-10 .wp-block-heading {
+	text-align: center !important;
+	color: #0f2340 !important;
+	font-weight: 700 !important;
+}
+
+.page-id-10 .wp-block-post-template > li.kategori_galeri-video {
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	grid-column: 1 / -1 !important;
+	width: 100% !important;
+	margin: 0 auto 40px auto !important;
+	text-align: center !important;
+}
+
+.page-id-10 .wp-video-embed {
+	display: block !important;
+	width: 800px !important;
+	max-width: calc(100% - 32px) !important;
+	min-width: 0 !important;
+	height: 450px !important;
+	padding-bottom: 0 !important; /* Disable intrinsic ratio */
+	margin: 0 auto !important;
+	overflow: visible !important;
+	border-radius: 12px !important;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.page-id-10 .wp-video-embed iframe {
+	position: static !important; /* Disable absolute positioning */
+	display: block !important;
+	width: 100% !important;
+	height: 100% !important;
+	margin: 0 auto !important;
+	border-radius: 12px !important;
+	background: #000000 !important;
+	border: none !important;
+}
+
+@media (max-width: 840px) {
+	.page-id-10 .wp-video-embed {
+		width: calc(100% - 32px) !important;
+		max-width: calc(100% - 32px) !important;
+		min-width: 0 !important;
+		height: auto !important;
+		min-height: 220px !important;
+		aspect-ratio: 16 / 9 !important;
+		margin: 0 auto !important;
+	}
+	.page-id-10 .wp-video-embed iframe {
+		width: 100% !important;
+		height: 100% !important;
+	}
+}
+
+/* ==========================================
+   Global Heading Font Styling (Overrides Serif Default)
+   ========================================== */
+h1, h2, h3, h4, h5, h6, .wp-block-heading {
+	font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+/* ==========================================
+   Page Title Styling Across Subpages
+   ========================================== */
+h1.wp-block-post-title.has-text-align-center,
+.page-id-9 h1.wp-block-post-title,
+.page-id-10 h1.wp-block-post-title,
+.page-id-11 h1.wp-block-post-title,
+.page-id-64 h1.wp-block-post-title {
+	font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+	font-size: 36px !important;
+	font-weight: 800 !important;
+	color: #0f2340 !important;
+	letter-spacing: -0.5px !important;
+	margin-bottom: 0 !important;
+}
+
+/* ==========================================
+   Halaman Artikel (Page ID 64 / Blog) - Exact Layout but Custom Font
+   ========================================== */
+.page-id-64 main .is-layout-constrained,
+.page-id-64 main .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)),
+.home main .is-layout-constrained,
+.home main .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)),
+.blog main .is-layout-constrained,
+.blog main .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+	max-width: 1240px !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+/* Fix gap below Artikel title */
+.page-id-64 h1.wp-block-post-title {
+	margin-bottom: 0 !important;
+	padding-bottom: 5px !important;
+}
+.page-id-64 .wp-block-post-content > p:first-of-type {
+	margin-top: 5px !important;
+}
+
+.page-id-64 ul.wp-block-post-template,
+.home ul.wp-block-post-template,
+.blog ul.wp-block-post-template {
+	display: grid !important;
+	grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+	gap: 20px !important;
+	width: 100% !important;
+	max-width: 1240px !important;
+	margin: 0 auto !important;
+	padding: 0 !important;
+	list-style: none !important;
+}
+
+.page-id-64 ul.wp-block-post-template > li,
+.home ul.wp-block-post-template > li,
+.blog ul.wp-block-post-template > li {
+	margin: 0 !important;
+	list-style-type: none !important;
+	height: 100% !important;
+}
+
+.page-id-64 .wp-card-blog,
+.home .wp-card-blog,
+.blog .wp-card-hover,
+.home .wp-card-hover,
+.blog .wp-card-blog {
+	background: #ffffff !important;
+	border: 1px solid #e2e8f0 !important;
+	border-radius: 12px !important;
+	padding: 24px 20px !important;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+	height: 100% !important;
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: space-between !important;
+	transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.page-id-64 .wp-card-blog:hover,
+.home .wp-card-blog:hover,
+.blog .wp-card-hover:hover,
+.home .wp-card-hover:hover,
+.blog .wp-card-blog:hover {
+	transform: translateY(-4px) !important;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-id-64 .wp-card-blog .wp-block-post-title,
+.page-id-64 .wp-card-blog .wp-block-post-title a,
+.home .wp-card-blog .wp-block-post-title,
+.home .wp-card-blog .wp-block-post-title a,
+.blog .wp-card-hover .wp-block-post-title,
+.blog .wp-card-hover .wp-block-post-title a,
+.home .wp-card-hover .wp-block-post-title,
+.home .wp-card-hover .wp-block-post-title a {
+	font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+	font-size: 1.25rem !important;
+	font-weight: 700 !important;
+	color: #0f2340 !important;
+	line-height: 1.4 !important;
+	margin-bottom: 12px !important;
+	text-decoration: none !important;
+	white-space: normal !important;
+	word-break: normal !important;
+}
+
+.page-id-64 .wp-card-blog .wp-block-post-date,
+.home .wp-card-blog .wp-block-post-date,
+.blog .wp-card-hover .wp-block-post-date,
+.home .wp-card-hover .wp-block-post-date {
+	font-size: 12.5px !important;
+	color: #94a3b8 !important;
+	margin-bottom: 16px !important;
+	font-family: 'Inter', system-ui, sans-serif !important;
+}
+
+.page-id-64 .wp-card-blog .wp-block-post-excerpt__excerpt,
+.home .wp-card-blog .wp-block-post-excerpt__excerpt,
+.blog .wp-card-hover .wp-block-post-excerpt__excerpt,
+.home .wp-card-hover .wp-block-post-excerpt__excerpt {
+	font-size: 14.5px !important;
+	color: #64748b !important;
+	line-height: 1.65 !important;
+	margin-bottom: 24px !important;
+	font-family: 'Inter', system-ui, sans-serif !important;
+}
+
+.page-id-64 .wp-card-blog .wp-block-post-excerpt__more-link,
+.home .wp-card-blog .wp-block-post-excerpt__more-link,
+.blog .wp-card-hover .wp-block-post-excerpt__more-link,
+.home .wp-card-hover .wp-block-post-excerpt__more-link {
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	color: #0c54a3 !important;
+	text-decoration: underline !important;
+	font-family: 'Inter', system-ui, sans-serif !important;
+}
+
+@media (max-width: 990px) {
+	.page-id-64 ul.wp-block-post-template,
+	.home ul.wp-block-post-template,
+	.blog ul.wp-block-post-template {
+		grid-template-columns: repeat(2, 1fr) !important;
+	}
+}
+
+@media (max-width: 640px) {
+	.page-id-64 ul.wp-block-post-template,
+	.home ul.wp-block-post-template,
+	.blog ul.wp-block-post-template {
+		grid-template-columns: 1fr !important;
+	}
+}
+
+
+.page-id-10 .wp-block-post-template {
+	display: flex !important;
+	justify-content: center !important;
+	flex-wrap: wrap !important;
+	gap: 16px !important;
+	padding: 0 !important;
+	margin: 0 auto !important;
+	list-style: none !important;
+}
+
+.page-id-10 .wp-block-post-template > li {
+	flex: 0 1 200px !important;
+	width: 200px !important;
+	margin: 0 !important;
+	list-style-type: none !important;
+}
+
+.page-id-10 .wp-block-post-template .wp-block-post-featured-image {
+	margin: 0 !important;
+	border-radius: 10px !important;
+	overflow: hidden !important;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-id-10 .wp-block-post-template .wp-block-post-featured-image img {
+	width: 100% !important;
+	height: 140px !important;
+	object-fit: cover !important;
+	border-radius: 10px !important;
+	display: block !important;
+}
+
+/* ==========================================
+   Section Alternating Rhythm (Selang-Seling Warna)
+   ========================================== */
+.wp-site-blocks > * {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.wp-home-hero,
+.wp-home-about-section,
+.wp-zoom-video-container,
+.wp-faq-section-wrapper {
+	margin: 0 !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+}
+
+/* 1. Hero: Putih (#ffffff) */
+.wp-home-hero {
+	background: #ffffff !important;
+}
+
+/* 2. About: Biru Muda (#eef4ff) */
+.wp-home-about-section {
+	background: #eef4ff !important;
+}
+
+/* 3. Video: Putih (#ffffff) */
+.wp-zoom-video-container {
+	background: #ffffff !important;
+}
+
+/* 4. Tim Pemateri: Biru Muda (#eef4ff) */
+main.wp-block-group > div.wp-block-group:has(.card-rata-tengah) {
+	background: #eef4ff !important;
+	padding-top: 85px !important;
+	padding-bottom: 85px !important;
+}
+
+main.wp-block-group > div.wp-block-group:has(.card-rata-tengah) .wp-block-group {
+	background: #ffffff !important;
+	border-color: #dbeafe !important;
+	box-shadow: 0 1px 3px rgba(12, 84, 163, 0.06) !important;
+}
+
+/* 5. Artikel Terbaru: Putih (#ffffff) */
+main.wp-block-group > div.wp-block-group:has(.wp-block-query:not(.card-rata-tengah)) {
+	background: #ffffff !important;
+	padding-top: 85px !important;
+	padding-bottom: 85px !important;
+}
+
+main.wp-block-group > div.wp-block-group:has(.wp-block-query:not(.card-rata-tengah)) .wp-card-hover {
+	background: #ffffff !important;
+	border-color: #e2e8f0 !important;
+	box-shadow: 0 1px 3px rgba(12, 84, 163, 0.05) !important;
+}
+
+/* 6. FAQ: Biru Muda (#eef4ff) */
+.wp-faq-section-wrapper {
+	background: #eef4ff !important;
+	padding-top: 85px !important;
+	padding-bottom: 85px !important;
+}
+
+/* ==========================================
+   Footer — Navy matching overall palette
+   ========================================== */
+footer.wp-block-template-part {
+	background: #0f2340 !important;
+	color: #e2e8f0 !important;
+	border-top: 3px solid #0c54a3 !important;
+	margin-top: 0 !important;
+}
+
+footer.wp-block-template-part h2,
+footer.wp-block-template-part h3,
+footer.wp-block-template-part p,
+footer.wp-block-template-part span,
+footer.wp-block-template-part a {
+	color: #e2e8f0 !important;
+}
+
+footer.wp-block-template-part a:hover {
+	color: #93c5fd !important;
+}
+
+footer.wp-block-template-part .has-contrast-2-color {
+	color: #94a3b8 !important;
+}
+
+/* ==========================================
+   Responsive — Mobile First
+   ========================================== */
+@media (max-width: 768px) {
+	.wp-home-hero {
+		padding: 60px 20px 50px !important;
+	}
+	.wp-home-hero h1 {
+		font-size: 28px !important;
+	}
+	.wp-home-about-section,
+	.wp-zoom-video-container,
+	.wp-faq-section-wrapper {
+		padding: 60px 20px !important;
+	}
+	.wp-home-about-section div[style*="display: flex"] {
+		flex-direction: column !important;
+		align-items: center !important;
+	}
+	.wp-home-about-section div[style*="max-width: 275px"] {
+		max-width: 100% !important;
+		width: 100% !important;
+	}
+}
+
+@media (max-width: 480px) {
+	.wp-home-hero h1 {
+		font-size: 24px !important;
+	}
+	.wp-home-hero a[style] {
+		width: 100% !important;
+		justify-content: center !important;
+	}
+}
+
+/* Button Animations */
+.wp-home-hero-btn:hover {
+	transform: translateY(-3px) !important;
+	box-shadow: 0 8px 20px rgba(12, 84, 163, 0.25) !important;
+}
+
+/* Accordion Smooth Transition */
+.wp-faq-accordion summary:hover {
+	color: #06356c !important;
+}
+.wp-faq-accordion[open] {
+	border-color: #0c54a3 !important;
+	box-shadow: 0 8px 25px rgba(12, 84, 163, 0.08) !important;
 }
 
 /* Custom FAQ Accordion (Details Block) Styling */
@@ -178,12 +884,70 @@ Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, feature
 /* ==========================================
    Utility Classes untuk Gutenberg Editor
    ========================================== */
+/* ==========================================
+   Card & Grid Layouts (Spacious 1140px)
+   ========================================== */
 .card-rata-tengah {
+	width: 100% !important;
+}
+
+.card-rata-tengah .wp-block-post-template {
 	display: flex !important;
-	flex-direction: column !important;
-	align-items: center !important;
-	text-align: center !important;
 	justify-content: center !important;
+	align-items: stretch !important;
+	flex-wrap: wrap !important;
+	gap: 28px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	list-style: none !important;
+}
+
+.card-rata-tengah .wp-block-post-template > li {
+	flex: 0 1 340px !important;
+	width: 340px !important;
+	max-width: 100% !important;
+	margin: 0 !important;
+	list-style-type: none !important;
+}
+
+.card-rata-tengah .wp-block-post-title,
+.card-rata-tengah .wp-block-post-title a,
+.card-rata-tengah h4,
+.card-rata-tengah h4 a {
+	font-size: 1.05rem !important;
+	font-weight: 700 !important;
+	white-space: nowrap !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	word-break: keep-all !important;
+}
+
+/* Artikel Query Grid Layout */
+.wp-block-query:not(.card-rata-tengah) .wp-block-post-template {
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr) !important;
+	gap: 28px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	list-style: none !important;
+}
+
+.wp-block-query:not(.card-rata-tengah) .wp-block-post-template > li {
+	margin: 0 !important;
+	list-style-type: none !important;
+	height: 100% !important;
+}
+
+@media (max-width: 960px) {
+	.wp-block-query:not(.card-rata-tengah) .wp-block-post-template {
+		grid-template-columns: repeat(2, 1fr) !important;
+	}
+}
+
+@media (max-width: 640px) {
+	.wp-block-query:not(.card-rata-tengah) .wp-block-post-template {
+		grid-template-columns: 1fr !important;
+	}
 }
 
 .card-rata-tengah .wp-block-post-featured-image {
@@ -204,4 +968,19 @@ Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, feature
 .wp-block-post-excerpt__more-link {
 	text-decoration: underline !important;
 	font-weight: 500 !important;
+}
+
+/* ==========================================
+   Scroll Reveal Animations (Scrollkebawah Effect)
+   ========================================== */
+.reveal-on-scroll {
+	opacity: 0 !important;
+	transform: translateY(35px) scale(0.98) !important;
+	transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) !important;
+	will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+	opacity: 1 !important;
+	transform: translateY(0) scale(1) !important;
 }
