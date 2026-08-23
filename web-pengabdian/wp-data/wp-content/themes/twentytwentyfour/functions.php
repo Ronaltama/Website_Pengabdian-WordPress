@@ -1013,9 +1013,9 @@ function web_pengabdian_home_about_shortcode() {
 	$svg_mobile = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0c54a3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>';
 	$svg_ai = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0c54a3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>';
 
-	$icon1_html = ! empty( $feature1_icon ) ? '<span style="font-size:22px; line-height:1;">' . esc_html( $feature1_icon ) . '</span>' : $svg_speech;
-	$icon2_html = ! empty( $feature2_icon ) ? '<span style="font-size:22px; line-height:1;">' . esc_html( $feature2_icon ) . '</span>' : $svg_mobile;
-	$icon3_html = ! empty( $feature3_icon ) ? '<span style="font-size:22px; line-height:1;">' . esc_html( $feature3_icon ) . '</span>' : $svg_ai;
+	$icon1_html = $svg_speech;
+	$icon2_html = $svg_mobile;
+	$icon3_html = $svg_ai;
 
 	$output = '
 	<section class="wp-home-about-section reveal-on-scroll" style="background: #eef4ff; padding: 85px 24px;">
