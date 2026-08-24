@@ -71,16 +71,55 @@ Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, feature
 /* ==========================================
    Header — White, No Shadow, Just Border
    ========================================== */
-header.wp-block-template-part {
-	background: #ffffff !important;
-	border-bottom: 1px solid #dde4ef !important;
+header.wp-block-template-part,
+header.wp-block-template-part div,
+header.wp-block-template-part .wp-block-group {
+	background-color: #ffffff !important;
 	box-shadow: none !important;
+}
+
+header.wp-block-template-part {
+	border-bottom: 1px solid #dde4ef !important;
 	position: sticky !important;
 	top: 0 !important;
 	z-index: 100 !important;
 	padding-top: 14px !important;
 	padding-bottom: 14px !important;
 }
+
+/* ==========================================
+   Uniform Background for Artikel, Gallery, Materi
+   ========================================== */
+body.page-id-64, body.page-id-64 .wp-site-blocks, body.page-id-64 main,
+body.page-id-10, body.page-id-10 .wp-site-blocks, body.page-id-10 main,
+body.page-id-11, body.page-id-11 .wp-site-blocks, body.page-id-11 main {
+	background-color: #f8fafc !important;
+}
+
+/* Force all structural wrappers to be transparent so the page background (#f8fafc) shows through perfectly */
+body.page-id-64 main .wp-block-group,
+body.page-id-64 main .wp-block-group.has-background,
+body.page-id-64 main .entry-content > div,
+body.page-id-10 main .wp-block-group,
+body.page-id-10 main .wp-block-group.has-background,
+body.page-id-10 main .entry-content > div,
+body.page-id-11 main .wp-block-group,
+body.page-id-11 main .wp-block-group.has-background,
+body.page-id-11 main .entry-content > div {
+	background-color: transparent !important;
+	box-shadow: none !important;
+}
+
+/* Bring back the white card style ONLY for the specific grid cards/videos */
+body.page-id-64 main .wp-card-blog,
+body.page-id-64 main .wp-card-hover,
+body.page-id-64 main ul.wp-block-post-template > li > .wp-block-group {
+	background-color: #ffffff !important;
+	border: 1px solid #e2e8f0 !important;
+	border-radius: 12px !important;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
 
 /* ==========================================
    Mobile Navigation Modal (Full-Screen Fix)
@@ -662,26 +701,26 @@ h1.wp-block-post-title.has-text-align-center,
 }
 
 /* 4. Tim Pemateri: Biru Muda (#eef4ff) */
-main.wp-block-group > div.wp-block-group:has(.card-rata-tengah) {
+.home main.wp-block-group > div.wp-block-group:has(.card-rata-tengah) {
 	background: #eef4ff !important;
 	padding-top: 85px !important;
 	padding-bottom: 85px !important;
 }
 
-main.wp-block-group > div.wp-block-group:has(.card-rata-tengah) .wp-block-group {
+.home main.wp-block-group > div.wp-block-group:has(.card-rata-tengah) .wp-block-group {
 	background: #ffffff !important;
 	border-color: #dbeafe !important;
 	box-shadow: 0 1px 3px rgba(12, 84, 163, 0.06) !important;
 }
 
 /* 5. Artikel Terbaru: Putih (#ffffff) */
-main.wp-block-group > div.wp-block-group:has(.wp-block-query:not(.card-rata-tengah)) {
+.home main.wp-block-group > div.wp-block-group:has(.wp-block-query:not(.card-rata-tengah)) {
 	background: #ffffff !important;
 	padding-top: 85px !important;
 	padding-bottom: 85px !important;
 }
 
-main.wp-block-group > div.wp-block-group:has(.wp-block-query:not(.card-rata-tengah)) .wp-card-hover {
+.home main.wp-block-group > div.wp-block-group:has(.wp-block-query:not(.card-rata-tengah)) .wp-card-hover {
 	background: #ffffff !important;
 	border-color: #e2e8f0 !important;
 	box-shadow: 0 1px 3px rgba(12, 84, 163, 0.05) !important;
