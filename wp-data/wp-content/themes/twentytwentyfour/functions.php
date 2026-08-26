@@ -390,11 +390,11 @@ function web_pengabdian_faq_accordion_shortcode() {
 				foreach ( $faq_items as $index => $item ) {
 					$q_num = $index + 1;
 					$output .= '
-					<details class="wp-faq-accordion" style="background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0; padding: 16px 20px; transition: all 0.25s ease;">
-						<summary style="font-weight: 700; font-size: 16px; color: #0c54a3; cursor: pointer; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; line-height: 1.5;">
+					<details class="wp-faq-accordion" style="background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0; padding: 14px 18px; transition: all 0.25s ease;">
+						<summary style="font-weight: 700; font-size: 15px; color: #0c54a3; cursor: pointer; line-height: 1.5;">
 							<span><strong style="color: #059669;">[Q' . $q_num . ']</strong> ' . esc_html( $item['title'] ) . '</span>
 						</summary>
-						<div class="wp-block-details-content" style="margin-top: 14px; color: #334155; font-size: 14.5px; line-height: 1.75; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+						<div class="wp-block-details-content" style="margin-top: 10px; color: #334155; font-size: 14.5px; line-height: 1.65; border-top: 1px solid #e2e8f0; padding-top: 10px;">
 							' . $item['answer'] . '
 						</div>
 					</details>';
@@ -408,6 +408,8 @@ function web_pengabdian_faq_accordion_shortcode() {
 	$output .= '</div></section>';
 	return $output;
 }
+add_shortcode( 'faq_accordion', 'web_pengabdian_faq_accordion_shortcode' );
+
 
 
 
@@ -417,7 +419,12 @@ function web_pengabdian_faq_accordion_shortcode() {
  * Includes recursion-safe checks for admin and REST API requests, and special iframe rendering for 'materi' post type.
  */
 function web_pengabdian_cpt_content_shortcode() {
-	// Prevent infinite recursion in admin, REST API, or on static pages
+	static $is_rendering = false;
+	if ( $is_rendering ) {
+		return '';
+	}
+
+	// Prevent execution in admin or REST API
 	if ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 		return '[CPT Content Preview]';
 	}
@@ -426,34 +433,35 @@ function web_pengabdian_cpt_content_shortcode() {
 	if ( ! $post_id || get_post_type( $post_id ) === 'page' ) {
 		return '';
 	}
-	
+
+	$is_rendering = true;
 	$post_type = get_post_type( $post_id );
+	$output = '';
 	
 	// 1. Render CPT 'materi'
 	if ( $post_type === 'materi' ) {
 		$drive_link = get_post_meta( $post_id, '_materi_google_drive_link', true );
 		if ( ! $drive_link ) {
-			return '<p>Belum ada link materi yang dimasukkan.</p>';
-		}
-		
-		$preview_link = $drive_link;
-		if ( strpos( $drive_link, 'docs.google.com/presentation' ) !== false ) {
-			$preview_link = preg_replace( '/\/(edit|pub|preview|sharing).*$/', '/embed', $drive_link );
-			if ( strpos( $preview_link, '/embed' ) === false ) {
-				$preview_link = rtrim( $preview_link, '/' ) . '/embed';
+			$output = '<p>Belum ada link materi yang dimasukkan.</p>';
+		} else {
+			$preview_link = $drive_link;
+			if ( strpos( $drive_link, 'docs.google.com/presentation' ) !== false ) {
+				$preview_link = preg_replace( '/\/(edit|pub|preview|sharing).*$/', '/embed', $drive_link );
+				if ( strpos( $preview_link, '/embed' ) === false ) {
+					$preview_link = rtrim( $preview_link, '/' ) . '/embed';
+				}
+			} elseif ( strpos( $drive_link, 'drive.google.com' ) !== false ) {
+				$preview_link = preg_replace( '/\/(view|edit|sharing).*$/', '/preview', $drive_link );
+				if ( strpos( $preview_link, '/preview' ) === false ) {
+					$preview_link = rtrim( $preview_link, '/' ) . '/preview';
+				}
 			}
-		} elseif ( strpos( $drive_link, 'drive.google.com' ) !== false ) {
-			$preview_link = preg_replace( '/\/(view|edit|sharing).*$/', '/preview', $drive_link );
-			if ( strpos( $preview_link, '/preview' ) === false ) {
-				$preview_link = rtrim( $preview_link, '/' ) . '/preview';
-			}
+			$output = '<div class="wp-materi-iframe-wrapper"><iframe src="' . esc_url( $preview_link ) . '" allow="autoplay" allowfullscreen></iframe></div>';
 		}
-		
-		return '<div class="wp-materi-iframe-wrapper"><iframe src="' . esc_url( $preview_link ) . '" allow="autoplay" allowfullscreen></iframe></div>';
 	}
 	
 	// 2. Render CPT 'galeri' (Photo and Video)
-	if ( $post_type === 'galeri' ) {
+	elseif ( $post_type === 'galeri' ) {
 		// Check category: Foto or Video
 		$terms = get_the_terms( $post_id, 'kategori_galeri' );
 		$is_video = false;
@@ -468,37 +476,39 @@ function web_pengabdian_cpt_content_shortcode() {
 		
 		if ( $is_video ) {
 			$youtube_link = get_post_meta( $post_id, '_galeri_youtube_link', true );
+			
 			if ( ! $youtube_link ) {
-				return '<p style="text-align:center; padding:20px; background:#f5f5f5; border-radius:8px;">Link video YouTube belum diisi.</p>';
-			}
-			
-			$video_id = '';
-			if ( preg_match( '%(?:youtube\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $youtube_link, $match ) ) {
-				$video_id = $match[1];
-			}
-			
-			if ( $video_id ) {
-				return '<div class="wp-video-embed" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-					<iframe src="https://www.youtube.com/embed/' . esc_attr( $video_id ) . '" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
-				</div>';
+				$output = '<p style="text-align:center; padding:15px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; color:#94a3b8; font-size:13px;">Link video YouTube belum diisi.</p>';
 			} else {
-				return '<p style="text-align:center; padding:20px; background:#f5f5f5; border-radius:8px;">Format link YouTube tidak valid.</p>';
+				$video_id = '';
+				if ( preg_match( '%(?:youtube\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $youtube_link, $match ) ) {
+					$video_id = $match[1];
+				}
+				
+				if ( $video_id ) {
+					$output = '
+					<div class="wp-video-embed" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); background: #000;">
+						<iframe src="https://www.youtube.com/embed/' . esc_attr( $video_id ) . '" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+					</div>';
+				} else {
+					$output = '<p style="text-align:center; padding:15px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; color:#ef4444; font-size:13px;">Format link YouTube tidak valid.</p>';
+				}
 			}
 		} else {
 			$thumb_id = get_post_thumbnail_id( $post_id );
 			$thumb_url = wp_get_attachment_image_url( $thumb_id, 'large' );
 			if ( $thumb_url ) {
-				return '<div class="wp-card-hover" style="border-radius:12px; overflow:hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); line-height:0;">
+				$output = '<div class="wp-card-hover" style="border-radius:12px; overflow:hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); line-height:0;">
 					<img src="' . esc_url( $thumb_url ) . '" alt="' . esc_attr( get_the_title() ) . '" style="width:100%; height:auto; object-fit:cover; aspect-ratio:4/3; display:block;" />
 				</div>';
 			} else {
-				return '<p style="text-align:center; padding:20px; background:#f5f5f5; border-radius:8px;">Gambar unggulan belum di-upload.</p>';
+				$output = '<p style="text-align:center; padding:20px; background:#f5f5f5; border-radius:8px;">Gambar unggulan belum di-upload.</p>';
 			}
 		}
 	}
 	
 	// 3. Render CPT 'anggota'
-	if ( $post_type === 'anggota' ) {
+	elseif ( $post_type === 'anggota' ) {
 		$jabatan = get_post_meta( $post_id, '_anggota_jabatan', true );
 		$instansi = get_post_meta( $post_id, '_anggota_instansi', true );
 		$thumb_id = get_post_thumbnail_id( $post_id );
@@ -518,11 +528,13 @@ function web_pengabdian_cpt_content_shortcode() {
 			<p class="member-role" style="font-size:14px; font-weight:500; color:#0056b3; margin:0 0 5px 0;">' . esc_html( $jabatan ) . '</p>
 			<p class="member-instansi" style="font-size:12px; color:#777; margin:0;">' . esc_html( $instansi ) . '</p>
 		</div>';
-		
-		return $output;
+	}
+	else {
+		$output = get_the_content();
 	}
 	
-	return apply_filters( 'the_content', get_the_content() );
+	$is_rendering = false;
+	return $output;
 }
 add_shortcode( 'cpt_content', 'web_pengabdian_cpt_content_shortcode' );
 
@@ -867,6 +879,11 @@ function web_pengabdian_render_settings_page() {
 		update_option( 'web_pengabdian_feature3_icon', sanitize_text_field( $_POST['feature3_icon'] ) );
 		update_option( 'web_pengabdian_feature3_title', sanitize_text_field( $_POST['feature3_title'] ) );
 		update_option( 'web_pengabdian_feature3_desc', sanitize_textarea_field( $_POST['feature3_desc'] ) );
+
+		update_option( 'web_pengabdian_zoom_video_title', sanitize_text_field( $_POST['zoom_video_title'] ) );
+		update_option( 'web_pengabdian_zoom_video_subtitle', sanitize_textarea_field( $_POST['zoom_video_subtitle'] ) );
+		update_option( 'web_pengabdian_zoom_video_url', esc_url_raw( $_POST['zoom_video_url'] ) );
+		update_option( 'web_pengabdian_zoom_video_passcode', sanitize_text_field( $_POST['zoom_video_passcode'] ) );
 		
 		echo '<div class="updated"><p>Pengaturan Beranda berhasil disimpan!</p></div>';
 	}
@@ -888,6 +905,11 @@ function web_pengabdian_render_settings_page() {
 	$feature3_icon = get_option( 'web_pengabdian_feature3_icon', '🤖' );
 	$feature3_title = get_option( 'web_pengabdian_feature3_title', 'Penggunaan NotebookLM' );
 	$feature3_desc = get_option( 'web_pengabdian_feature3_desc', 'Memanfaatkan AI untuk merangkum ide, menyusun teks promosi, dan mengembangkan strategi pemasaran digital.' );
+
+	$zoom_video_title = get_option( 'web_pengabdian_zoom_video_title', 'Rekaman Video Zoom Pelatihan & Pendampingan' );
+	$zoom_video_subtitle = get_option( 'web_pengabdian_zoom_video_subtitle', 'Saksikan kembali tayangan materi dan diskusi interaktif bersama tim narasumber UNS & Perma UTLLN Jepang.' );
+	$zoom_video_url = get_option( 'web_pengabdian_zoom_video_url', '' );
+	$zoom_video_passcode = get_option( 'web_pengabdian_zoom_video_passcode', '' );
 	
 	?>
 	<div class="wrap">
@@ -970,6 +992,36 @@ function web_pengabdian_render_settings_page() {
 					</td>
 				</tr>
 			</table>
+
+			<h2 class="title" style="margin-top: 30px; border-bottom: 2px solid #ccc; padding-bottom: 10px;">4. Section Rekaman Zoom / Video Pelatihan</h2>
+			<table class="form-table">
+				<tr>
+					<th scope="row"><label for="zoom_video_title">Judul Rekaman Video</label></th>
+					<td>
+						<input type="text" id="zoom_video_title" name="zoom_video_title" value="<?php echo esc_attr( $zoom_video_title ); ?>" class="large-text" />
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="zoom_video_subtitle">Subjudul Rekaman</label></th>
+					<td>
+						<textarea id="zoom_video_subtitle" name="zoom_video_subtitle" rows="2" class="large-text"><?php echo esc_textarea( $zoom_video_subtitle ); ?></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="zoom_video_url">Link Video (YouTube Embed / Zoom Cloud Link)</label></th>
+					<td>
+						<input type="url" id="zoom_video_url" name="zoom_video_url" value="<?php echo esc_attr( $zoom_video_url ); ?>" class="large-text" placeholder="https://www.youtube.com/embed/... atau https://zoom.us/rec/play/..." />
+						<p class="description">Gunakan link YouTube embed (misal: <code>https://www.youtube.com/embed/XXXXX</code>) atau link langsung Zoom Cloud Recording.</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="zoom_video_passcode">Passcode Zoom (Opsional)</label></th>
+					<td>
+						<input type="text" id="zoom_video_passcode" name="zoom_video_passcode" value="<?php echo esc_attr( $zoom_video_passcode ); ?>" class="regular-text" placeholder="Contoh: ComdevUNS2026!" />
+						<p class="description">Jika disi, tombol/badge Passcode akan ditampilkan secara otomatis agar pengunjung mudah meng-copy passcode.</p>
+					</td>
+				</tr>
+			</table>
 			
 			<p class="submit">
 				<input type="submit" name="web_pengabdian_save_home_settings" class="button button-primary button-large" value="Simpan Pengaturan" />
@@ -978,6 +1030,84 @@ function web_pengabdian_render_settings_page() {
 	</div>
 	<?php
 }
+
+/**
+ * Shortcode to render Zoom Video Section.
+ */
+function web_pengabdian_zoom_video_shortcode( $atts ) {
+	$atts = shortcode_atts( array(
+		'url'      => get_option( 'web_pengabdian_zoom_video_url', '' ),
+		'title'    => get_option( 'web_pengabdian_zoom_video_title', 'Rekaman Video Zoom Pelatihan & Pendampingan' ),
+		'subtitle' => get_option( 'web_pengabdian_zoom_video_subtitle', 'Saksikan kembali tayangan materi dan diskusi interaktif bersama tim narasumber UNS & Perma UTLLN Jepang.' ),
+		'passcode' => get_option( 'web_pengabdian_zoom_video_passcode', '' ),
+	), $atts, 'zoom_video' );
+
+	$url = trim( $atts['url'] );
+	$title = $atts['title'];
+	$subtitle = $atts['subtitle'];
+	$passcode = trim( $atts['passcode'] );
+
+	if ( empty( $url ) ) {
+		return '';
+	}
+
+	$svg_video = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: block; flex-shrink: 0;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>';
+
+	// Check if URL is YouTube or direct Zoom link
+	$is_youtube = ( strpos( $url, 'youtube.com' ) !== false || strpos( $url, 'youtu.be' ) !== false );
+	
+	// Convert standard YouTube watch URL to embed if needed
+	if ( $is_youtube && strpos( $url, '/embed/' ) === false ) {
+		if ( preg_match( '%(?:youtube\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match ) ) {
+			$url = 'https://www.youtube.com/embed/' . $match[1];
+		}
+	}
+
+	$passcode_html = '';
+	if ( ! empty( $passcode ) ) {
+		$passcode_html = '
+		<div style="margin-top: 18px; display: inline-flex; align-items: center; gap: 10px; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 18px; border-radius: 8px; font-size: 14px; color: #334155;">
+			<span>🔑 <strong>Passcode Rekaman:</strong> <code id="zoom-passcode-val" style="background: #e2e8f0; padding: 3px 8px; border-radius: 4px; font-family: monospace; font-size: 15px; color: #0c54a3; font-weight: 700;">' . esc_html( $passcode ) . '</code></span>
+			<button type="button" onclick="navigator.clipboard.writeText(\'' . esc_js( $passcode ) . '\'); this.innerText=\'Tersalin! ✅\'; setTimeout(() => this.innerText=\'Salin 📋\', 2000);" style="background: #0c54a3; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Salin 📋</button>
+		</div>';
+	}
+
+	$media_html = '';
+	if ( $is_youtube ) {
+		$media_html = '
+		<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;">
+			<iframe src="' . esc_url( $url ) . '" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+		</div>';
+	} else {
+		// External link / Zoom Cloud button player card
+		$media_html = '
+		<div style="background: linear-gradient(135deg, #0f2340 0%, #0c54a3 100%); border-radius: 16px; padding: 48px 24px; text-align: center; color: #ffffff; box-shadow: 0 8px 24px rgba(12, 84, 163, 0.25);">
+			<div style="font-size: 42px; margin-bottom: 16px;">📹</div>
+			<h3 style="font-size: 20px; font-weight: 700; margin-bottom: 12px; color: #ffffff;">Rekaman Zoom Cloud Available</h3>
+			<p style="font-size: 14px; opacity: 0.9; max-width: 500px; margin: 0 auto 24px auto; line-height: 1.6;">Klik tombol di bawah ini untuk membuka dan menonton rekaman langsung di platform Zoom Cloud.</p>
+			<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: #2563eb; color: #ffffff; padding: 12px 28px; border-radius: 99px; font-weight: 700; font-size: 15px; text-decoration: none; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); transition: transform 0.2s;" onmouseover="this.style.transform=\'scale(1.04)\'" onmouseout="this.style.transform=\'scale(1)\'">
+				<span>Tonton Rekaman di Zoom Cloud</span> ↗
+			</a>
+		</div>';
+	}
+
+	$output = '
+	<section class="wp-zoom-video-container reveal-on-scroll" style="background: #ffffff; padding: 85px 24px;">
+		<div style="max-width: 820px; margin: 0 auto; text-align: center;">
+			<div style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 16px; background: #eef4ff; color: #0c54a3; border-radius: 99px; font-size: 13px; font-weight: 700; margin-bottom: 20px; letter-spacing: 0.3px;">
+				' . $svg_video . '
+				<span style="display: inline-block; line-height: 1.2;">REKAMAN ZOOM</span>
+			</div>
+			<h2 style="font-size: 28px; font-weight: 800; color: #0f2340; margin-bottom: 10px; letter-spacing: -0.3px;">' . esc_html( $title ) . '</h2>
+			<p style="font-size: 15px; color: #64748b; margin-bottom: 24px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.7;">' . esc_html( $subtitle ) . '</p>
+			' . $media_html . '
+			' . $passcode_html . '
+		</div>
+	</section>';
+
+	return $output;
+}
+add_shortcode( 'zoom_video', 'web_pengabdian_zoom_video_shortcode' );
 
 /**
  * Shortcode to render Homepage Hero Section.
@@ -1085,37 +1215,6 @@ function web_pengabdian_home_about_shortcode() {
 	return $output;
 }
 add_shortcode( 'home_about', 'web_pengabdian_home_about_shortcode' );
-
-/**
- * Shortcode to render Zoom Video Section.
- */
-function web_pengabdian_zoom_video_shortcode( $atts ) {
-	$atts = shortcode_atts( array(
-		'url' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-		'title' => 'Rekaman Video Zoom Pelatihan & Pendampingan',
-		'subtitle' => 'Saksikan kembali tayangan materi dan diskusi interaktif bersama tim narasumber UNS & Perma UTLLN Jepang.'
-	), $atts, 'zoom_video' );
-
-	$svg_video = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: block; flex-shrink: 0;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>';
-
-	$output = '
-	<section class="wp-zoom-video-container reveal-on-scroll" style="background: #ffffff; padding: 85px 24px;">
-		<div style="max-width: 820px; margin: 0 auto; text-align: center;">
-			<div style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 16px; background: #eef4ff; color: #0c54a3; border-radius: 99px; font-size: 13px; font-weight: 700; margin-bottom: 20px; letter-spacing: 0.3px;">
-				' . $svg_video . '
-				<span style="display: inline-block; line-height: 1.2;">REKAMAN ZOOM</span>
-			</div>
-			<h2 style="font-size: 28px; font-weight: 800; color: #0f2340; margin-bottom: 10px; letter-spacing: -0.3px;">' . esc_html( $atts['title'] ) . '</h2>
-			<p style="font-size: 15px; color: #64748b; margin-bottom: 28px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.7;">' . esc_html( $atts['subtitle'] ) . '</p>
-			<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;">
-				<iframe src="' . esc_url( $atts['url'] ) . '" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-			</div>
-		</div>
-	</section>';
-	return $output;
-
-}
-add_shortcode( 'zoom_video', 'web_pengabdian_zoom_video_shortcode' );
 
 /**
  * Scroll Reveal Observer Javascript for smooth scroll animations.
