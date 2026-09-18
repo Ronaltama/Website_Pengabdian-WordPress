@@ -1239,6 +1239,13 @@ function web_pengabdian_scroll_reveal_js() {
 		});
 		
 		revealElements.forEach(el => observer.observe(el));
+
+		// Otomatis ubah embed Google Slides /preview menjadi /embed agar rasio 16:9 pas tanpa bar hitam
+		document.querySelectorAll("iframe[src*='docs.google.com/presentation']").forEach(function(iframe) {
+			if (iframe.src.indexOf("/preview") !== -1) {
+				iframe.src = iframe.src.replace(/\/preview.*$/, "/embed?start=false&loop=false&delayms=3000");
+			}
+		});
 	});
 	</script>
 	<?php
@@ -1459,5 +1466,13 @@ function web_pengabdian_admin_head_css() {
 }
 add_action( 'admin_head', 'web_pengabdian_admin_head_css' );
 
-
-
+/**
+ * Prevent WordPress from checking and automatically updating twentytwentyfour
+ * which would overwrite custom theme modifications.
+ */
+add_filter( 'site_transient_update_themes', function( $transient ) {
+	if ( isset( $transient->response['twentytwentyfour'] ) ) {
+		unset( $transient->response['twentytwentyfour'] );
+	}
+	return $transient;
+} );

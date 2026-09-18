@@ -7,7 +7,7 @@ Description: Twenty Twenty-Four is designed to be flexible, versatile and applic
 Requires at least: 6.4
 Tested up to: 7.0
 Requires PHP: 7.0
-Version: 1.5
+Version: 99.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentytwentyfour
@@ -375,34 +375,62 @@ li.type-anggota > .wp-block-group > .wp-block-post-content {
 	text-align: center !important;
 }
 
-.page-id-11 iframe,
-.type-materi iframe {
-	display: block !important;
-	width: 800px !important;
-	max-width: calc(100% - 32px) !important;
-	height: 450px !important;
-	margin: 0 auto 20px auto !important;
+/* Responsive wrapper for Google Slides / Drive embeds on Materi page */
+.page-id-11 .entry-content div[style*="padding-top"],
+.page-id-11 .wp-materi-iframe-wrapper {
+	position: relative !important;
+	width: 100% !important;
+	max-width: 860px !important;
+	padding-top: 56.25% !important; /* Perfect 16:9 widescreen, menghilangkan bar hitam */
+	margin: 0 auto 10px auto !important;
 	border-radius: 12px !important;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+	box-shadow: 0 8px 25px rgba(12, 84, 163, 0.12) !important;
+	overflow: hidden !important;
 	background: #000000 !important;
-	border: none !important;
 }
 
-@media (max-width: 840px) {
-	.page-id-11 .wp-materi-iframe-wrapper,
-	.type-materi .wp-materi-iframe-wrapper {
-		width: 100% !important;
-		max-width: 100% !important;
-	}
-	.page-id-11 iframe,
-	.type-materi iframe {
-		width: calc(100% - 32px) !important;
-		max-width: calc(100% - 32px) !important;
-		height: auto !important;
-		aspect-ratio: 16 / 9 !important;
-		min-height: 220px !important;
-		margin: 0 auto 20px auto !important;
-	}
+/* Iframes inside the responsive 16:9 wrapper */
+.page-id-11 .entry-content div[style*="padding-top"] iframe,
+.page-id-11 .wp-materi-iframe-wrapper iframe {
+	position: absolute !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	margin: 0 !important;
+	border: none !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+}
+
+/* Button style for 'Buka di Google Slides' link */
+.page-id-11 .entry-content p:has(> a[href*="docs.google.com"]) {
+	text-align: center !important;
+	margin-top: 8px !important;
+	margin-bottom: 48px !important;
+}
+
+.page-id-11 .entry-content a[href*="docs.google.com"] {
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 6px !important;
+	background: #ffffff !important;
+	color: #0c54a3 !important;
+	border: 1.5px solid #dbeafe !important;
+	padding: 8px 18px !important;
+	border-radius: 8px !important;
+	font-size: 13.5px !important;
+	font-weight: 600 !important;
+	text-decoration: none !important;
+	box-shadow: 0 2px 6px rgba(12, 84, 163, 0.06) !important;
+	transition: all 0.2s ease !important;
+}
+
+.page-id-11 .entry-content a[href*="docs.google.com"]:hover {
+	background: #0c54a3 !important;
+	color: #ffffff !important;
+	border-color: #0c54a3 !important;
+	box-shadow: 0 4px 12px rgba(12, 84, 163, 0.2) !important;
 }
 
 /* ==========================================
@@ -444,6 +472,20 @@ li.type-anggota > .wp-block-group > .wp-block-post-content {
 	margin: 0 auto 30px auto !important;
 	list-style-type: none !important;
 	flex: unset !important;
+}
+
+/* Gallery Page (Page ID 10) Custom Video Embed Container Fix */
+.page-id-10 .entry-content div[style*="padding-top:56.25%"],
+.page-id-10 .entry-content .wp-block-embed,
+.page-id-10 .entry-content .wp-video-embed,
+.page-id-10 .entry-content div:has(> iframe[src*="drive.google.com"]) {
+	max-width: 680px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	margin-bottom: 28px !important;
+	border-radius: 12px !important;
+	box-shadow: 0 8px 24px rgba(12, 84, 163, 0.12) !important;
+	overflow: hidden !important;
 }
 
 /* Photo Grid Loop (Original 3 Columns Grid) */
